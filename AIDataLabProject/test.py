@@ -58,3 +58,29 @@ mean_dist = (
 print(mean_dist)
 print(business_in_atlanta.crs) 
 print(stops_in_atlanta.crs)
+
+#are types of businesses more prevalent in disinvested neighborhoods
+
+#check peak ridership dates, what insentivised these 
+#check how much major sporting events/concerts affect peak ridership
+
+#check top reviewed locations on google maps using web scraping,
+
+
+#naics code analysis
+
+top_types = (
+    business_df_geo
+    .groupby(["disinvested_neighborhood", "naics_name"])
+    .size()
+    .reset_index(name="count")
+)
+
+# Calculate percentages for comparison
+top_types["percent"] = (
+    top_types.groupby("disinvested_neighborhood")["count"]
+    .transform(lambda x: x / x.sum() * 100)
+)
+
+#get the top 10 industrys for each neighborhood type
+top_types.sort_values(["disinvested_neighborhood", "count"], ascending=[True, False]).groupby("disinvested_neighborhood").head(10)
