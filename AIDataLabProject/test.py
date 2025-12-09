@@ -548,7 +548,6 @@ fig, ax = ox.plot_graph_routes(
 
 
 #now we are going to place hypothetical stops along these routes
-# --- Create a function to create stops along routes with proper distance calculations ---
 def create_stops_along_route(route_nodes, G, spacing_meters=500):
     """
     Create stops along a route at regular intervals in meters.
@@ -563,7 +562,7 @@ def create_stops_along_route(route_nodes, G, spacing_meters=500):
     """
     stops = []
     
-    # Get coordinates for all nodes in the route
+    #get coords for all nodes in the route
     coords = []
     for node in route_nodes:
         node_data = G.nodes[node]
@@ -896,6 +895,23 @@ m.add_child(hypothetical_layer)
 
 # --- Layer control ---
 folium.LayerControl().add_to(m)
+
+legend_html = '''
+<div style="position: fixed; 
+     bottom: 50px; left: 50px; width: 220px; height: 180px; 
+     border:2px solid grey; z-index:9999; font-size:14px;
+     background-color:white;
+     padding: 10px;">
+     <b>Map Legend</b><br>
+     <i class="fa fa-star" style="color:red"></i> Mercedes-Benz Stadium<br>
+     <i class="fa fa-circle" style="color:yellow"></i> Disinvested Businesses<br>
+     <i class="fa fa-circle" style="color:blue"></i> All Businesses<br>
+     <i class="fa fa-circle" style="color:orange"></i> Hypothetical Stops<br>
+     <i class="fa fa-minus" style="color:blue"></i> Real MARTA Routes
+</div>
+'''
+
+m.get_root().html.add_child(folium.Element(legend_html))
 
 # --- Save map ---
 m.save("atlanta_real_and_hypothetical_routes.html")
